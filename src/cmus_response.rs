@@ -5,7 +5,6 @@ use std::process::Command;
 
 pub fn read_response() -> HashMap<String, String> {
     let mut tags: HashMap<String, String> = HashMap::new();
-
     let output = Command::new("cmus-remote")
         .arg("-Q")
         .output()
@@ -34,7 +33,8 @@ pub fn read_response() -> HashMap<String, String> {
             }
         }
     }
-
-
+    let file = tags.get("file").unwrap().to_string();
+    let filedir = file.rsplit_once("/");
+    tags.insert("filedir".to_string(), filedir.unwrap().0.to_string());
     tags
 }
